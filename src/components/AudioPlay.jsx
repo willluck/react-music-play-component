@@ -546,7 +546,10 @@ class AudioPlay extends Component {
                   </span>
                   <p className="music-list-head-name">{title}</p>
                   <span className="music-list-head-close">
-                    <span className="icon-close music-list-common-icon" />
+                    <span
+                      className="icon-close music-list-common-icon"
+                      onClick={this.onMusicList}
+                    />
                   </span>
                 </div>
                 <div className="music-list-body">

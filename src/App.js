@@ -36,6 +36,20 @@ class App extends Component {
     return (
       <div>
         <div className="App-Content">
+          <div className="explain-header">
+            <p className="explain-title">
+              基于React的音乐播放器【仿网易云音乐Web端音乐播放器】
+            </p>
+            <p>
+              ps.由于api原因，内置音乐暂时采用了静态资源的办法（谁让我只是个播放器呢），另外也没法做歌词滚动播放，还有很多业务性质的按钮点了也是没用的啦
+              <br />
+              特别说明：我已经找好了一个开源音乐api了，后面抽空实践，我会把静态资源给改成api获取的，另外歌词播放滚动也会做的，
+              第三方api都有的，如果你觉得项目还不错，可以给我的GitHub点个赞那
+              <a href="https://github.com/willluck/react-music-play-component">
+                点这里
+              </a>
+            </p>
+          </div>
           <AudioPlay musicList={musicList} />
         </div>
       </div>

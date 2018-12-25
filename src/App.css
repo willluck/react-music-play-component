@@ -1,3 +1,12 @@
 .App-Content {
   min-height: 100vh;
 }
+
+.explain-header {
+  margin-top: 100px;
+  text-align: center;
+}
+
+.explain-title {
+  font-size: 24px;
+}
