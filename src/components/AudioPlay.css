@@ -34,7 +34,7 @@ table {
   right: 0;
   height: 0;
   width: 100%;
-  z-index: 1002;
+  z-index: 10;
   zoom: 1;
 }
 
@@ -153,7 +153,7 @@ table {
   height: 8px;
   background: #c7c7c7;
   opacity: 0.4;
-  z-index: 9998;
+  z-index: 1;
   border-radius: 5px;
 }
 
@@ -163,7 +163,7 @@ table {
   top: 0;
   height: 8px;
   background: #e11b22;
-  z-index: 9999;
+  z-index: 2;
   border-radius: 5px;
 }
 
@@ -173,7 +173,7 @@ table {
   top: -4px;
   height: 16px;
   width: 16px;
-  z-index: 10000;
+  z-index: 3;
   border-radius: 50%;
   background: #fff;
 }
@@ -185,7 +185,7 @@ table {
   left: 4px;
   height: 8px;
   width: 8px;
-  z-index: 10001;
+  z-index: 4;
   border-radius: 50%;
 }
 
@@ -283,11 +283,12 @@ table {
 
 .volume-controler {
   position: absolute;
-  top: -140px;
+  top: -139px;
   left: 9px;
   width: 32px;
   height: 128px;
   background: #333;
+  z-index: 1;
 }
 
 .volume-process {
@@ -328,7 +329,7 @@ table {
   left: 4px;
   height: 4px;
   width: 4px;
-  z-index: 10001;
+  z-index: 2;
   border-radius: 50%;
 }
 
@@ -396,7 +397,12 @@ table {
   margin-left: 8px;
 }
 
+.music-list-head-collect:hover {
+  opacity: 1;
+}
+
 .music-list-head-collect {
+  opacity: 0.8;
   position: absolute;
   left: 395px;
   top: 10px;
@@ -419,6 +425,7 @@ table {
 }
 
 .music-list-head-clear {
+  opacity: 0.8;
   position: absolute;
   left: 485px;
   top: 10px;
@@ -427,6 +434,10 @@ table {
   font-size: 12px;
   color: #ccc;
   cursor: pointer;
+}
+
+.music-list-head-clear:hover {
+  opacity: 1;
 }
 
 .music-list-head-name {
@@ -442,6 +453,7 @@ table {
 }
 
 .music-list-head-close {
+  opacity: 0.8;
   position: absolute;
   right: 4px;
   top: 6px;
@@ -451,6 +463,10 @@ table {
   font-size: 12px;
   color: #ccc;
   cursor: pointer;
+}
+
+.music-list-head-close:hover {
+  opacity: 1;
 }
 
 .music-list-body {

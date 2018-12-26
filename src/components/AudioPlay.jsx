@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import "./AudioPlay.css";
 import "../static/style.css";
 
 /**
  * 前端音乐播放器
- * create by willghy
+ * create by will
  * @class AudioPlay
  * @extends {Component}
  */
@@ -14,8 +15,10 @@ class AudioPlay extends Component {
     this.state = {
       // 是否暂停状态
       isPause: false,
+      // 当前音乐列表
+      musicList: props.musicList || [],
       // 当前音乐
-      currentMusic: props.musicList ? props.musicList[0] : null,
+      currentMusic: props.musicList ? props.musicList[0] : {},
       // 总时间
       totalTime: "00:00",
       // 当前播放时间
@@ -31,6 +34,41 @@ class AudioPlay extends Component {
       // 歌单显示控制
       isMusicListShow: false
     };
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { currentMusic, musicList: prevMusicList } = prevState;
+    const { musicList = [] } = nextProps;
+    // 判断音乐列表已经不同了
+    if (!_.isEqual(musicList, prevMusicList)) {
+      const oldIndex = prevMusicList.findIndex(item => {
+        return currentMusic.id === item.id;
+      });
+      const hasCurrentMusic = musicList.findIndex(item => {
+        return currentMusic.id === item.id;
+      });
+      let newCurrentMusic = musicList[oldIndex]
+        ? musicList[oldIndex]
+        : musicList[0];
+      if (musicList.length === 0) {
+        newCurrentMusic = currentMusic;
+      }
+      return {
+        musicList,
+        currentMusic: hasCurrentMusic === -1 ? newCurrentMusic : currentMusic
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    // 当前音乐更新了
+    if (prevState.currentMusic.id !== this.state.currentMusic.id) {
+      this.resetProcess();
+      if (this.state.isPause) {
+        this.onPlay();
+      }
+    }
   }
 
   componentDidMount() {
@@ -176,7 +214,7 @@ class AudioPlay extends Component {
   // 当前音乐播放结束后下一首音乐处理 根据当前的播放模式决定下一首音乐是什么
   endedPlayMusic = () => {
     const { playMode, currentMusic } = this.state;
-    const { musicList } = this.props;
+    const { musicList } = this.state;
     if (musicList.length > 0 && currentMusic) {
       const currentIndex = musicList.findIndex(item => {
         return item.id === currentMusic.id;
@@ -210,14 +248,17 @@ class AudioPlay extends Component {
       else if (playMode === 3) {
         this.onSwitchAction();
       }
+    } else {
+      // 当前播放列表已经空了，则不自动切歌，播放完毕后，直接重置当前的播放的音乐
+      this.onSwitchAction();
     }
   };
 
   // 下一首歌
   nextMusic = () => {
     const { currentMusic } = this.state;
-    const { musicList } = this.props;
-    if (musicList.length > 0 && currentMusic) {
+    const { musicList } = this.state;
+    if (musicList.length > 1 && currentMusic) {
       const currentIndex = musicList.findIndex(item => {
         return item.id === currentMusic.id;
       });
@@ -230,13 +271,16 @@ class AudioPlay extends Component {
           this.onSwitchAction();
         });
       }
+    } else {
+      this.audio.currentTime = 0;
+      this.onSwitchAction();
     }
   };
   // 上一首歌
   previousMusic = () => {
     const { currentMusic } = this.state;
-    const { musicList } = this.props;
-    if (musicList.length > 0 && currentMusic) {
+    const { musicList } = this.state;
+    if (musicList.length > 1 && currentMusic) {
       const currentIndex = musicList.findIndex(item => {
         return item.id === currentMusic.id;
       });
@@ -249,8 +293,10 @@ class AudioPlay extends Component {
           this.onSwitchAction();
         });
       }
+    } else {
+      this.audio.currentTime = 0;
+      this.onSwitchAction();
     }
-    // 当前是暂停图标，表示正在播放，那么切歌以后会直接播放
   };
 
   // 切歌后相关操作，如果正在播放中，则切歌后还是会直接播放，如果处于暂停，则切歌后不会直接播放
@@ -365,9 +411,57 @@ class AudioPlay extends Component {
     this.setState({ isMusicListShow: !isMusicListShow });
   };
 
+  // TODO: 收藏
+  onCollect = () => {
+    alert("收藏方法，自定义完善");
+  };
+
+  // TODO: 单首歌加入收藏歌单
+  onAddFile = (e, item) => {
+    e.stopPropagation();
+    alert(
+      `单首歌加入收藏歌单，自定义完善，歌曲id:${item.id}，歌曲名称:${
+        item.title
+      }`
+    );
+  };
+
+  // TODO: 分享指定歌曲
+  onShareMusic = (e, item) => {
+    e.stopPropagation();
+    alert(
+      `分享指定歌曲，自定义完善，歌曲id:${item.id}，歌曲名称:${item.title}`
+    );
+  };
+
+  // TODO: 下载指定歌曲
+  onUploadMusic = (e, item) => {
+    e.stopPropagation();
+    alert(
+      `下载指定歌曲，自定义完善，歌曲id:${item.id}，歌曲名称:${item.title}`
+    );
+  };
+
+  // 删除指定歌曲
+  onDeleteMusic = (e, item) => {
+    e.stopPropagation();
+    const { onDeleteMusic } = this.props;
+    if (onDeleteMusic) {
+      onDeleteMusic(item.id);
+    }
+  };
+
+  // 删除当前全部歌曲
+  onDeleteAllMusic = () => {
+    const { onDeleteAllMusic } = this.props;
+    if (onDeleteAllMusic) {
+      onDeleteAllMusic();
+    }
+  };
+
   // 歌单切歌
   onMusicListItemClick = id => {
-    const { musicList } = this.props;
+    const { musicList } = this.state;
     const { currentMusic } = this.state;
     const index = musicList.findIndex(item => {
       return item.id === id;
@@ -398,7 +492,7 @@ class AudioPlay extends Component {
       isMusicListShow
     } = this.state;
     const { title, info, img, resource, id } = currentMusic || {};
-    const { musicList } = this.props;
+    const { musicList } = this.state;
     let playModeIcon = "";
     switch (playMode) {
       case 1:
@@ -420,7 +514,6 @@ class AudioPlay extends Component {
           className="mainContent"
           onMouseMove={this.onProcessItemMouseMove}
           onMouseUp={this.onProcessItemMouseUp}
-          // onClick={this.onVolumeControlHide}
         >
           <div className="playContent">
             {/* 左侧控制器，播放，上一首，下一首 */}
@@ -487,7 +580,7 @@ class AudioPlay extends Component {
             </div>
             {/* 右侧音量调节，循环调节，歌单查看 */}
             <div className="right-controler">
-              {/* 音量控制条 */}
+              {/* 音量控制条，这里采用的是style控制，因为需要获取到音量条的ref，如果不存在这个节点，就获取不到ref*/}
               <div
                 className="volume-controler"
                 style={{ visibility: volumeControl ? "visible" : "hidden" }}
@@ -535,12 +628,18 @@ class AudioPlay extends Component {
                     </span>
                     )
                   </h4>
-                  <span className="music-list-head-collect">
+                  <span
+                    className="music-list-head-collect"
+                    onClick={this.onCollect}
+                  >
                     <span className="icon-addfile music-list-common-icon" />
                     <span className="music-list-common-text">收藏全部</span>
                   </span>
                   <span className="music-list-head-line" />
-                  <span className="music-list-head-clear">
+                  <span
+                    className="music-list-head-clear"
+                    onClick={this.onDeleteAllMusic}
+                  >
                     <span className="icon-clear music-list-common-icon" />
                     <span className="music-list-common-text">清除</span>
                   </span>
@@ -576,10 +675,22 @@ class AudioPlay extends Component {
                                 </span>
                               </div>
                               <div className="col music-list-li-col-3">
-                                <span className="icon-addfile music-list-action-icon" />
-                                <span className="icon-share music-list-action-icon" />
-                                <span className="icon-download music-list-action-icon" />
-                                <span className="icon-clear music-list-action-icon" />
+                                <span
+                                  className="icon-addfile music-list-action-icon"
+                                  onClick={e => this.onAddFile(e, item)}
+                                />
+                                <span
+                                  className="icon-share music-list-action-icon"
+                                  onClick={e => this.onShareMusic(e, item)}
+                                />
+                                <span
+                                  className="icon-download music-list-action-icon"
+                                  onClick={e => this.onUploadMusic(e, item)}
+                                />
+                                <span
+                                  className="icon-clear music-list-action-icon"
+                                  onClick={e => this.onDeleteMusic(e, item)}
+                                />
                               </div>
                               <div className="col music-list-li-col-4">
                                 <span className="music-list-li-text">
