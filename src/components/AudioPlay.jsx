@@ -5,7 +5,7 @@ import "../static/style.css";
 
 /**
  * 前端音乐播放器
- * create by will
+ * create by willghy
  * @class AudioPlay
  * @extends {Component}
  */
@@ -559,7 +559,7 @@ class AudioPlay extends Component {
                           className="process-item"
                           ref={ref => (this.processItem = ref)}
                           onMouseDown={this.onProcessItemMouseDown}
-                          onMouseUp={this.onProcessItemMouseUp}
+                          // onMouseUp={this.onProcessItemMouseUp}
                         >
                           <div className="process-item-inside" />
                         </div>

@@ -26,7 +26,8 @@
 [这是我的DEMO](http://132.232.203.178:8081/)
 
 ## 文章链接
-相关博客正在写作中
+[简书文章链接](https://www.jianshu.com/p/a1a5cb2a5694)
+[掘金文章链接](https://juejin.im/post/5c3451b7e51d4551eb3a0bc8)
 
 
 ## 写在后面
