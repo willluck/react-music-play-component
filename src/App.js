@@ -2,6 +2,12 @@ import React, { Component } from "react";
 import AudioPlay from "./components/AudioPlay";
 import "./App.css";
 
+/**
+ * 注意，下面被注释掉的类似// resource: require("./resource/DAOKO,米津玄師 - 打上花火.mp3"),
+ * 因为暂时没有搞定第三方api，所以直接在项目文件中放了mp4文件，但是后有开发者朋友反馈，会导致下载速度变慢很多，导致无法拉取项目，
+ * 所以这里把resource注释，请拉取项目的开发者自行加入api或者是音乐文件地址
+ *
+ */
 class App extends Component {
   constructor(props) {
     super(props);
@@ -11,7 +17,8 @@ class App extends Component {
           id: "1",
           title: "打上花火",
           info: "DAOKO,米津玄師",
-          resource: require("./resource/DAOKO,米津玄師 - 打上花火.mp3"),
+          // resource: require("./resource/DAOKO,米津玄師 - 打上花火.mp3"),
+          resource: "",
           time: "04:50",
           img:
             "http://singerimg.kugou.com/uploadpic/softhead/400/20160913/20160913140233132.jpg"
@@ -20,7 +27,8 @@ class App extends Component {
           id: "2",
           title: "渡月橋 ~君 想ふ~",
           info: "倉木麻衣",
-          resource: require("./resource/倉木麻衣 - 渡月橋 ~君 想ふ~.mp3"),
+          // resource: require("./resource/倉木麻衣 - 渡月橋 ~君 想ふ~.mp3"),
+          resource: "",
           time: "04:50",
           img:
             "http://singerimg.kugou.com/uploadpic/softhead/400/20160913/20160913140233132.jpg"
@@ -29,7 +37,8 @@ class App extends Component {
           id: "3",
           title: "美丽的神话Ⅰ",
           info: "成龙,金喜善",
-          resource: require("./resource/成龙,金喜善 - 美丽的神话Ⅰ.mp3"),
+          // resource: require("./resource/成龙,金喜善 - 美丽的神话Ⅰ.mp3"),
+          resource: "",
           time: "04:50",
           img:
             "http://singerimg.kugou.com/uploadpic/softhead/400/20160913/20160913140233132.jpg"
